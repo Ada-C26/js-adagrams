@@ -31,15 +31,10 @@ export const drawLetters = () => {
   const hand = [];
   for (let i = 0; i < 10; i++) {
     const keys = Object.keys(LETTER_POOL);
-
     const index = Math.floor(Math.random() * keys.length);
-
     const letter = keys[index];
-
     hand.push(letter);
-
     LETTER_POOL[letter] -= 1;
-
     if (LETTER_POOL[letter] === 0) {
       delete LETTER_POOL[letter];
     }

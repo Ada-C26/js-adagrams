@@ -1,4 +1,4 @@
- const LETTERPOOL = {
+const LETTERPOOL = {
   A: 9,
   B: 2,
   C: 2,
@@ -27,8 +27,24 @@
   Z: 1
 };
 export const drawLetters = () => {
-  // Implement this method for wave 1
+  let letters = [];
+
+  for (const letter in LETTERPOOL) {
+    const count = LETTERPOOL[letter];
+    letters.push(...Array(count).fill(letter));
+  }
+
+  let lettersInHand = [];
+
+  for (let i = 0; i < 10; i++) {
+    const randomIndex = Math.floor(Math.random() * letters.length);
+    lettersInHand.push(letters.splice(randomIndex, 1)[0]);
+  }
+  return lettersInHand;
 };
+console.log(drawLetters());
+console.log(drawLetters());
+console.log(drawLetters());
 
 export const usesAvailableLetters = (input, lettersInHand) => {
   // Implement this method for wave 2

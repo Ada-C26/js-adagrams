@@ -50,7 +50,18 @@ export const drawLetters = () => {
 };
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
+  // create a copy of the letters in hand to track usage
+  const lettersCopy = [...lettersInHand];
+  
+  // check if each letter in the input is available in the letters in hand
+  for (const letter of input) {
+    const letterIndex = lettersCopy.indexOf(letter);
+    if (letterIndex === -1) {
+      return false; // when letter not found in hand
+    }
+    lettersCopy.splice(letterIndex, 1); // remove the used letter from the copy
+  }
+  return true;
 };
 
 export const scoreWord = (word) => {

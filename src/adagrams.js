@@ -53,7 +53,21 @@ export const drawLetters = () => {
 };
 
 // Implement this method for wave 2
-export const usesAvailableLetters = (input, lettersInHand) => {};
+export const usesAvailableLetters = (input, lettersInHand) => {
+  const availableLetters = [...lettersInHand];
+
+  for (const letter of input) {
+    const index = availableLetters.indexOf(letter);
+
+    if (index === -1) {
+      return false;
+    }
+
+    availableLetters.splice(index, 1);
+  }
+
+  return true;
+};
 
 export const scoreWord = (word) => {
   // Implement this method for wave 3

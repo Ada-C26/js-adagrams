@@ -13,10 +13,6 @@ const SCORE_CHART = {
   Q: 10, Z: 10
 };
 
-//creating a function to get the letter pool based on the LETTER_POOL object.
-//  This function will return an array of letters where each letter appears 
-// as many times as its frequency in the LETTER_POOL.
-
 export const getLetterPool = () => {
   const pool = [];
   for (const letter in LETTER_POOL) {
@@ -48,12 +44,74 @@ export const drawLetters = () => {
 
 export const usesAvailableLetters = (input, lettersInHand) => {
   // Implement this method for wave 2
+  const handfreq = {};
+  for (const letter of lettersInHand) {
+    if (handfreq[letter]) {
+      handfreq[letter] += 1;
+    } else {
+      handfreq[letter] = 1;
+    }
+  }
+
+  for (const letter of input.toUpperCase()) {
+    if (!handfreq[letter]) {
+      return false;
+    }
+    handfreq[letter] -= 1;
+  }
+  return true;
 };
 
 export const scoreWord = (word) => {
   // Implement this method for wave 3
+  let total = 0;
+  for (const letter of word.toUpperCase()) {
+    if (SCORE_CHART[letter]) {
+      total += SCORE_CHART[letter];
+    }
+  }
+  const LONG_WORD_BONUS = 8;
+  if (word.length >= 7 && word.length <= 10) {
+    total += LONG_WORD_BONUS;
+  }
+  return total;
 };
+
+const chooseBestWord = (currentWord, currentScore, bestWord, bestScore) => {
+  if (bestWord === '' || currentScore > bestScore) {
+    return { word: currentWord, score: currentScore };
+  }
+
+  if (currentScore === bestScore) {
+    const currentLength = currentWord.length;
+    const bestLength = bestWord.length;
+
+    if (currentLength === 10 && bestLength !== 10) {
+      return { Word: currentWord, score: currentScore };
+    }
+    if (bestLength !== 10 && currentLength < bestLength) {
+      return { Word: currentWord, score: currentScore };
+    }
+  }
+
+  return { Word: bestWord, score: bestScore };
+};
+
 
 export const highestScoreFrom = (words) => {
   // Implement this method for wave 4
+  if (!words || words.length === 0) {
+    return null;
+  }
+
+  let bestWord = '';
+  let bestScore = 0;
+
+  for (const word of words) {
+    const score = scoreWord(word);
+    const result = chooseBestWord(word, score, bestWord, bestScore);
+    bestWord = result.word;
+    bestScore = result.score;
+  }
+  return { word: bestWord, score: bestScore };
 };

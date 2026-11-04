@@ -154,7 +154,7 @@ describe('Adagrams', () => {
       const expectTie = (words) => {
         const scores = words.map((word) => scoreWord(word));
         const highScore = scores.reduce((h, s) => (h < s ? s : h), 0);
-        const tiedWords = scores.filter((s) => s == highScore);
+        const tiedWords = scores.filter((s) => s === highScore);
 
         // Expect at least two tied words
         expect(tiedWords.length).toBeGreaterThan(1);

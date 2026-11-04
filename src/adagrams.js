@@ -31,12 +31,25 @@ export const drawLetters = () => {
   }
 
   return playerLetters;
-
-
 };
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
+  const copyBank = [];
+  const capInput = input.toUpperCase();
+
+  for (const letter of lettersInHand) {
+    copyBank.push(letter);
+  }
+
+  for (const letter of capInput) {
+    if (copyBank.includes(letter)) {
+      const index = copyBank.indexOf(letter);
+      copyBank.splice(index, 1);
+    } else {
+      return false;
+    }
+  }
+  return true;
 };
 
 export const scoreWord = (word) => {

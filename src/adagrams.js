@@ -87,14 +87,14 @@ const chooseBestWord = (currentWord, currentScore, bestWord, bestScore) => {
     const bestLength = bestWord.length;
 
     if (currentLength === 10 && bestLength !== 10) {
-      return { Word: currentWord, score: currentScore };
+      return { word: currentWord, score: currentScore };
     }
     if (bestLength !== 10 && currentLength < bestLength) {
-      return { Word: currentWord, score: currentScore };
+      return { word: currentWord, score: currentScore };
     }
   }
 
-  return { Word: bestWord, score: bestScore };
+  return { word: bestWord, score: bestScore };
 };
 
 

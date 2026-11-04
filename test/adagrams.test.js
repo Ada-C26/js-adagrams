@@ -168,8 +168,8 @@ describe('Adagrams', () => {
         };
         expectTie(words);
 
-        expect(highestScoreFrom([...words])).toEqual(correct);
-        expect(highestScoreFrom([...words].reverse())).toEqual(correct);
+        expect(highestScoreFrom(words)).toEqual(correct);
+        expect(highestScoreFrom(words.reverse())).toEqual(correct);
       });
 
       it('selects the word with fewer letters when neither are 10 letters', () => {
@@ -182,9 +182,9 @@ describe('Adagrams', () => {
       });
 
       it('selects the first word when both have same length', () => {
-        const words = ['DOG', 'CAT'];
-        const first = { word: 'DOG', score: scoreWord('DOG') };
-        const second = { word: 'CAT', score: scoreWord ('CAT') };
+        const words = ['AAAAAAAAAA', 'EEEEEEEEEE'];
+        const first = { word: 'AAAAAAAAAA', score: scoreWord('AAAAAAAAAA') };
+        const second = { word: 'EEEEEEEEEE', score: scoreWord('EEEEEEEEEE') };
         expectTie(words);
 
         expect(highestScoreFrom(words)).toEqual(first);

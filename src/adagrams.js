@@ -65,10 +65,31 @@ function getRandomIntInclusive(min, max) {
 
 export const drawLetters = () => {
   // Implement this method for wave 1
+  const letters = [];
+  const drawnLetters = [];
+  const numbersDrawn = [];
+
+  for (const [letter, count] of Object.entries(letterPool)) {
+    letters.push(letter.repeat(count));
+  }
+
+  let handSize = 10;
+
+  for (let i = 0; i < handSize; i++) {
+    let number = getRandomIntInclusive(0, letters.length - 1);
+    while(numbersDrawn.includes(number)) {
+      number = getRandomIntInclusive(0, letters.length - 1);
+    }
+    numbersDrawn.push(number);
+    drawnLetters.push(letters[number][0]);
+  }
+
+  return drawnLetters;
 };
 
 export const usesAvailableLetters = (input, lettersInHand) => {
   // Implement this method for wave 2
+
 };
 
 export const scoreWord = (word) => {

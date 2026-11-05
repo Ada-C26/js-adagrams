@@ -27,23 +27,34 @@ const LETTER_POOL = {
   'Z': 1,
 };
 
+const HAND_SIZE = 10;
+
+export const helperPickRandomLetter = (pool) => {
+
+  return Math.floor(Math.random() * pool.length);
+
+};
+
 export const drawLetters = () => {
   // Implement this method for wave 1
-  let hand = [];
-  let alphabetPool = [];
+  const hand = [];
+  const alphabetPool = [];
 
   for (const letter in LETTER_POOL) {
     for (let quantity = 0; quantity < LETTER_POOL[letter]; quantity++) {
       alphabetPool.push(letter);
     }
   }
+
   // console.log(alphabetPool);
-  while (hand.length < 10) {
-    const letterIndex = Math.floor(Math.random() * alphabetPool.length);
+  // while (hand.length < 10) 
+  
+  Array.from({ length: HAND_SIZE }).forEach(() => {
+    const letterIndex = helperPickRandomLetter(alphabetPool);
     const lastIndex = alphabetPool.length - 1;
     [alphabetPool[letterIndex], alphabetPool[lastIndex]] = [alphabetPool[lastIndex], alphabetPool[letterIndex]];
     hand.push(alphabetPool.pop());
-  }
+  })
   // console.log(hand);
   // console.log(alphabetPool.length);
   return hand;

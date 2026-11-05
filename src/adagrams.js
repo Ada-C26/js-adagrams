@@ -25,7 +25,7 @@ const letterPool = {
     'X': 1, 
     'Y': 2, 
     'Z': 1
-}
+};
 
 
 const scores = {
@@ -55,6 +55,12 @@ const scores = {
     'X': 8,
     'Q': 10,
     'Z': 10
+};
+
+function getRandomIntInclusive(min, max) {
+  const minCeiled = Math.ceil(min);
+  const maxFloored = Math.floor(max);
+  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
 }
 
 export const drawLetters = () => {

@@ -43,18 +43,18 @@ export const drawLetters = () => {
 };
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-    input = input.toUpperCase();
-    lettersInHand = [...lettersInHand];
+  input = input.toUpperCase();
+  lettersInHand = [...lettersInHand];
 
-    for (const letter of input) {
-        if (!lettersInHand.includes(letter)) {
-            return false;
-        }
-
-        lettersInHand.splice(lettersInHand.indexOf(letter), 1);
+  for (const letter of input) {
+    if (!lettersInHand.includes(letter)) {
+      return false;
     }
 
-    return true;
+    lettersInHand.splice(lettersInHand.indexOf(letter), 1);
+  }
+
+  return true;
 };
 
 export const scoreWord = (word) => {

@@ -73,16 +73,45 @@ export const scoreWord = (word) => {
   }
 
   if (word.length >= 7) {
-    score += 8;
+    score += extraPoints;
   }
 
   return score;
 };
 
+
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+  let currentHighScore = 0;
+  let currentWinWord = '';
+
+  for (const word of words) {
+    const score = scoreWord(word);
+
+    if (score > currentHighScore) {
+      currentHighScore = score;
+      currentWinWord = word;
+    }
+
+    else if (score === currentHighScore && score !== 0) {
+      if (word.length === 10 && currentWinWord.length !== 10) {
+        currentHighScore = score;
+        currentWinWord = word;
+      };
+      if (word.length < currentWinWord.length && currentWinWord.length !== 10) {
+        currentHighScore = score;
+        currentWinWord = word;
+      };
+    }
+  }
+
+  const winner = {
+    word: currentWinWord,
+    score: currentHighScore
+  };
+
+  return winner;
 };
 
 const getRandomNum = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};

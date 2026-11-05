@@ -60,7 +60,20 @@ export const scoreWord = (word) => {
 };
 
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+  const scores = words.map(scoreWord);
+  const highestScore = Math.max(...scores);
+  const tiedWords = words.filter((_, i) => scores[i] === highestScore);
+
+  return {word: breakTie(tiedWords), score: highestScore};
+};
+
+const breakTie = (tiedWords) => {
+  const tenLetterWord = tiedWords.find((word) => word.length === HAND_SIZE);
+  if(tenLetterWord) return tenLetterWord;
+
+  return tiedWords.reduce((shortest, word) =>
+    word.length < shortest.length ? word : shortest
+  );
 };
 
 const createWeightedPool = () => {

@@ -88,8 +88,21 @@ export const drawLetters = () => {
 };
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
+    const lettersInHandCopy = {};
+    input = input.toUpperCase();
 
+    for(let letter of lettersInHand) {
+        lettersInHandCopy[letter] = (lettersInHandCopy[letter] || 0) + 1;
+    }
+
+    for(let letter of input) {
+        if((lettersInHandCopy[letter] || 0) == 0) {
+            return false;
+        };
+
+        lettersInHandCopy[letter] -= 1;
+    }
+    return true;
 };
 
 export const scoreWord = (word) => {

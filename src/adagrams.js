@@ -141,3 +141,4 @@ export const highestScoreFrom = (words) => {
   }
   return { word: bestWord, score: bestScore };
 };
+

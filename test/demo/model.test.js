@@ -7,8 +7,8 @@ describe.skip('Game Model', () => {
       'Player A',
       'Player B',
     ],
-    rounds: 3,
-    time: 60, // Seconds
+    rounds: 1,
+    time: 1, // Seconds
   };
 
   describe('constructor', () => {

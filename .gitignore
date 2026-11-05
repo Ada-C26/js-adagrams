@@ -3,3 +3,4 @@ package.json.lock
 .DS_Store
 coverage
 .vscode
+jsconfig.json

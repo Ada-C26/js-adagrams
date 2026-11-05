@@ -22,7 +22,19 @@ export const drawLetters = () => {
 };
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
+
+  let availableLetters = new Map();
+  for(let letter of lettersInHand){
+    availableLetters.set(letter, (availableLetters.getOrInsert(letter, 0)) + 1);
+  }
+
+  for(let letter of input){
+    if(!availableLetters.get(letter.toUpperCase())){
+      return false;
+    }
+    availableLetters.set(letter.toUpperCase(), availableLetters.get(letter.toUpperCase()) - 1);
+  }
+  return true;
 };
 
 export const scoreWord = (word) => {

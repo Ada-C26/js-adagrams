@@ -115,9 +115,29 @@ export const scoreWord = (word) => {
 };
 
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
-};
+  let bestScore = 0;
+  let bestWord = '';
 
+  for (const word of words) {
+    const score = scoreWord(word);
+
+    if (score > bestScore) {
+      bestScore = score;
+      bestWord = word;
+    } else if (score === bestScore) {
+      if (word.length === 10 || bestWord.length === 10) {
+        bestWord = word.length > bestWord.length ? word : bestWord;
+      } else if (word.length < bestWord.length) {
+        bestWord = word;
+      }
+    }
+  }
+
+  return {
+    word: bestWord,
+    score: bestScore
+  };
+};
 
 export const totalNumberOfLetters = (pool) => {
   let total = 0;

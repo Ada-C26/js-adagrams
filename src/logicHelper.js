@@ -1,4 +1,4 @@
-import { HAND_SIZE } from './constants.js';
+import { TIE_BREAK_WORD_LENGTH } from './constants.js';
 
 export const buildTilePile = (pool) => {
   const tiles = [];
@@ -27,7 +27,7 @@ export const containsFrequency = (outer, inner) => {
 };
 
 export const beatsTiedWord = (word, best) => {
-  if (best.length === HAND_SIZE) return false;
-  if (word.length === HAND_SIZE) return true;
+  if (best.length === TIE_BREAK_WORD_LENGTH) return false;
+  if (word.length === TIE_BREAK_WORD_LENGTH) return true;
   return word.length < best.length;
 };

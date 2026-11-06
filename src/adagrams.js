@@ -129,32 +129,8 @@ export const scoreWord = (word) => {
   return totalPoints;
 };
 
-// export const highestScoreFrom = (words) => {
-//   let highestScore = scoreWord(words[0]);
-//   let winningWord = words[0];
-
-//   for (let i = 1; i < words.length; i++) {
-
-//     const scoreWordAtIndex = scoreWord(words[i]);
-//     const wordAtIndex = words[i];
-
-//     if (highestScore < scoreWordAtIndex) {
-//       highestScore = scoreWordAtIndex;
-//       winningWord = wordAtIndex;
-//     }
-
-//     else if (highestScore === scoreWordAtIndex) {
-//       if (winningWord.length !== 10 && (wordAtIndex.length === 10 || wordAtIndex.length < winningWord.length)) {
-//         winningWord = wordAtIndex;
-//       }
-//     };
-//   }
-//   return { 'score': highestScore, 'word': winningWord };
-// };
-
 export const highestScoreFrom = (words) => {
 
-  // Get the highest score
   let maxScore = 0;
   for (const word of words) {
     const wordScore = scoreWord(word);
@@ -163,7 +139,6 @@ export const highestScoreFrom = (words) => {
     }
   }
 
-  // See if there's any ties
   const tiedWords = [];
   for (const word of words) {
     if (scoreWord(word) == maxScore) {
@@ -171,19 +146,16 @@ export const highestScoreFrom = (words) => {
     }
   }
 
-  // If there is only one word with the highest score, return immediately
   if (tiedWords.length === 1) {
     return {'score': maxScore, 'word': tiedWords[0]};
   }
 
-  // If it's a tie and there's two or more words with the highest score, first word to have 10 letters wins
   for (const word of tiedWords) {
     if (word.length === 10) {
       return {'score': maxScore, 'word': word};
     }
   }
 
-  // If it's a tie and no words consists of 10 letters, the shortest one wins
   let winningWord = tiedWords[0];
   for (let i = 0; i < tiedWords.length; i++) {
     if (tiedWords[i].length < winningWord.length) {

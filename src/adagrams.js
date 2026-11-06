@@ -123,10 +123,9 @@ export const scoreWord = (word) => {
   };
 
   for (const letter of wordList) {
-    if (POINTS_PER_LETTER[letter]) {
-      totalPoints += POINTS_PER_LETTER[letter];
-    }
+    totalPoints += POINTS_PER_LETTER[letter];
   }
+
   return totalPoints;
 };
 
@@ -145,19 +144,11 @@ export const highestScoreFrom = (words) => {
     }
 
     else if (highestScore === scoreWordAtIndex) {
-      if (winningWord.length === 10) {
-        continue;
-      }
-
-      else if (winningWord.length !== 10) {
-        if (wordAtIndex.length === 10) {
-          winningWord = wordAtIndex;
-        }
-        else if (wordAtIndex.length < winningWord.length) {
-          winningWord = wordAtIndex;
-        }
+      if (winningWord.length !== 10 && (wordAtIndex.length === 10 || wordAtIndex.length < winningWord.length)) {
+        winningWord = wordAtIndex;
       }
     };
   }
   return { 'score': highestScore, 'word': winningWord };
 };
+

@@ -23,8 +23,8 @@ export const drawLetters = () => {
   const pool = createWeightedPool();
   const hand = [];
 
-  for(let i = 0; i < HAND_SIZE; i++) {
-    let index = Math.floor(Math.random() * pool.length);
+  for (let i = 0; i < HAND_SIZE; i++) {
+    const index = Math.floor(Math.random() * pool.length);
     hand.push(pool[index]);
     [pool[index], pool[pool.length - 1]] = [pool[pool.length - 1], pool[index]];
     pool.pop();
@@ -33,27 +33,27 @@ export const drawLetters = () => {
 };
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-
-  let availableLetters = new Map();
-  for(let letter of lettersInHand){
-    availableLetters.set(letter, (availableLetters.getOrInsert(letter, 0)) + 1);
+  const availableLetters = new Map();
+  for (const letter of lettersInHand) {
+    availableLetters.set(letter, availableLetters.getOrInsert(letter, 0) + 1);
   }
 
-  for(let letter of input){
-    if(!availableLetters.get(letter.toUpperCase())){
+  for (const letter of input.toUpperCase()) {
+    const count = availableLetters.get(letter);
+    if (!count) {
       return false;
     }
-    availableLetters.set(letter.toUpperCase(), availableLetters.get(letter.toUpperCase()) - 1);
+    availableLetters.set(letter, count - 1);
   }
   return true;
 };
 
 export const scoreWord = (word) => {
   let score = 0;
-  for (let letter of word){
+  for (const letter of word) {
     score += SCORES.get(letter.toUpperCase());
   }
-  if (word.length >= WORD_LENGTH_MIN_FOR_BONUS){
+  if (word.length >= WORD_LENGTH_MIN_FOR_BONUS) {
     score += LENGTH_BONUS_POINTS;
   }
   return score;
@@ -64,12 +64,16 @@ export const highestScoreFrom = (words) => {
   const highestScore = Math.max(...scores);
   const tiedWords = words.filter((_, i) => scores[i] === highestScore);
 
-  return {word: breakTie(tiedWords), score: highestScore};
+  if (tiedWords.length === 1) {
+    return { word: tiedWords[0], score: highestScore };
+  }
+
+  return { word: breakTie(tiedWords), score: highestScore };
 };
 
 const breakTie = (tiedWords) => {
   const tenLetterWord = tiedWords.find((word) => word.length === HAND_SIZE);
-  if(tenLetterWord) return tenLetterWord;
+  if (tenLetterWord) return tenLetterWord;
 
   return tiedWords.reduce((shortest, word) =>
     word.length < shortest.length ? word : shortest

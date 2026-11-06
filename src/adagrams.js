@@ -53,6 +53,25 @@ export const scoreWord = (word) => {
   return score;
 };
 
+const MAX_WORD_LENGTH = 10;
+
+const beatsTiedWord = (word, best) => {
+  if (best.length === MAX_WORD_LENGTH) return false;
+  if (word.length === MAX_WORD_LENGTH) return true;
+  return word.length < best.length;
+};
+
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+  let best = null;
+  for (const word of words) {
+    const score = scoreWord(word);
+    if (
+      best === null ||
+      score > best.score ||
+      (score === best.score && beatsTiedWord(word, best.word))
+    ) {
+      best = { word, score };
+    }
+  }
+  return best;
 };

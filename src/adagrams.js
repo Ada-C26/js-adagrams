@@ -114,7 +114,7 @@ export const usesAvailableLetters = (input, lettersInHand) => {
 };
 
 export const scoreWord = (word) => {
-  // Implement this method for wave 3
+
   const wordList = [...word.toUpperCase()];
   let totalPoints = 0;
 
@@ -131,5 +131,33 @@ export const scoreWord = (word) => {
 };
 
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+  let highestScore = scoreWord(words[0]);
+  let winningWord = words[0];
+
+  for (let i = 1; i < words.length; i++) {
+
+    let scoreWordAtIndex = scoreWord(words[i]);
+    let wordAtIndex = words[i];
+
+    if (highestScore < scoreWordAtIndex) {
+      highestScore = scoreWordAtIndex;
+      winningWord = wordAtIndex;
+    }
+
+    else if (highestScore === scoreWordAtIndex) {
+      if (winningWord.length === 10) {
+        continue;
+      }
+
+      else if (winningWord.length !== 10) {
+        if (wordAtIndex.length === 10) {
+          winningWord = wordAtIndex;
+        }
+        else if (wordAtIndex.length < winningWord.length) {
+          winningWord = wordAtIndex;
+        }
+      }
+    };
+  }
+  return { 'score': highestScore, 'word': winningWord };
 };

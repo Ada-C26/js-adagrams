@@ -56,6 +56,10 @@ const SCORE_CHART = {
   Z: 10
 };
 
+const LONG_WORD_BONUS = 8;
+const LONG_WORD_BONUS_LENGTH_MIN = 7;
+const LONG_WORD_BONUS_LENGTH_MAX = 10;
+
 export const drawLetters = () => {
 
   const hand = [];
@@ -102,8 +106,11 @@ export const usesAvailableLetters = (input, lettersInHand) => {
 export const scoreWord = (word) => {
   let score = 0;
 
-  if (word.length >= 7 && word.length <= 10) {
-    score = 8;
+  if (
+    word.length >= LONG_WORD_BONUS_LENGTH_MIN &&
+    word.length <= LONG_WORD_BONUS_LENGTH_MAX
+  ) {
+    score = LONG_WORD_BONUS;
   }
 
   for (const letter of word) {
@@ -115,21 +122,37 @@ export const scoreWord = (word) => {
 };
 
 export const highestScoreFrom = (words) => {
+  if (words.length === 0) {
+    return null;
+  }
+
+  // Step 1: Find the highest score
   let bestScore = 0;
-  let bestWord = '';
 
   for (const word of words) {
     const score = scoreWord(word);
 
     if (score > bestScore) {
       bestScore = score;
+    }
+  }
+
+  // Step 2: Keep only words with the highest score
+  const highestScoringWords = words.filter(
+    (word) => scoreWord(word) === bestScore
+  );
+
+  // Step 3: Apply tie-breaking rules
+  let bestWord = highestScoringWords[0];
+
+  for (const word of highestScoringWords) {
+    if (word.length === 10) {
       bestWord = word;
-    } else if (score === bestScore) {
-      if (word.length === 10 || bestWord.length === 10) {
-        bestWord = word.length > bestWord.length ? word : bestWord;
-      } else if (word.length < bestWord.length) {
-        bestWord = word;
-      }
+      break;
+    }
+
+    if (word.length < bestWord.length) {
+      bestWord = word;
     }
   }
 

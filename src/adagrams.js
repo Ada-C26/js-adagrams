@@ -98,7 +98,7 @@ export const scoreWord = (word) => {
   let totalScore = 0;
 
   // calculate the score for each letter in the word
-  for (const letter of word) {
+  for (const letter of word.toUpperCase()) {
     totalScore += letterScores[letter];
   }
 
@@ -110,5 +110,28 @@ export const scoreWord = (word) => {
 };
 
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+  let bestWord = "";
+  let bestScore = 0;
+
+  // iterate through the words to find the highest scoring word
+  for (const word of words) {
+    const currentScore = scoreWord(word);
+
+    // check if the current word has a higher score than the best score
+    if (currentScore > bestScore) {
+      bestWord = word;
+      bestScore = currentScore;
+    } else if (currentScore === bestScore) {
+      if (word.length === 10 && bestWord.length !== 10) {
+        bestWord = word;
+      } else if (bestWord.length !== 10 && word.length < bestWord.length) {
+        bestWord = word;
+      }
+    }
+  }
+
+  return {
+    word: bestWord,
+    score: bestScore
+  };
 };

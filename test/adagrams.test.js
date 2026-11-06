@@ -150,6 +150,10 @@ describe('Adagrams', () => {
       expect(highestScoreFrom(words)).toEqual(correct);
     });
 
+    it('throws an error when given an empty list of words', () => {
+      expect(() => highestScoreFrom([])).toThrow();
+    });
+
     describe('in case of tied score', () => {
       const expectTie = (words) => {
         const scores = words.map((word) => scoreWord(word));

@@ -4,16 +4,48 @@ const LETTER_POOL = {
   S: 4, T: 6, U: 4, V: 2, W: 2, X: 1, Y: 2, Z: 1,
 };
 
-const HAND_SIZE = 10;
+const LETTER_SCORES = {
+  A: 1, B: 3, C: 3, D: 2, E: 1, F: 4, G: 2, H: 4, I: 1,
+  J: 8, K: 5, L: 1, M: 3, N: 1, O: 1, P: 3, Q: 10, R: 1,
+  S: 1, T: 1, U: 1, V: 4, W: 4, X: 8, Y: 4, Z: 10,
+};
 
-export const drawLetters = () => {
+const HAND_SIZE = 10;
+const LONG_WORD_BONUS_LENGTH_MIN = 7;
+const LONG_WORD_BONUS_LENGTH_MAX = 10;
+const LONG_WORD_BONUS = 8;
+
+const buildTilePile = (pool) => {
   const tiles = [];
-  for (const [letter, count] of Object.entries(LETTER_POOL)) {
-    for (let i = 0; i < count; i++) {
-      tiles.push(letter);
+  for (const [letter, count] of Object.entries(pool)) {
+    tiles.push(...Array(count).fill(letter));
+  }
+  return tiles;
+};
+
+const getLetterFrequency = (letters) => {
+  const frequency = {};
+  for (const letter of letters) {
+    const key = letter.toUpperCase();
+    frequency[key] = (frequency[key] ?? 0) + 1;
+  }
+  return frequency;
+};
+
+const containsFrequency = (outer, inner) => {
+  for (const [letter, count] of Object.entries(inner)) {
+    if ((outer[letter] ?? 0) < count) {
+      return false;
     }
   }
+  return true;
+};
 
+export const drawLetters = () => {
+  const tiles = buildTilePile(LETTER_POOL);
+
+  // Partial Fisher-Yates shuffle: swap each picked tile into the front of the
+  // array so it can't be picked again, instead of removing it from the middle.
   const hand = [];
   for (let i = 0; i < HAND_SIZE; i++) {
     const j = i + Math.floor(Math.random() * (tiles.length - i));
@@ -24,44 +56,37 @@ export const drawLetters = () => {
 };
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  const letters = lettersInHand.slice();
-  for (const letter of input) {
-    const index = letters.indexOf(letter);
-    if (index === -1) {
-      return false;
-    }
-    letters.splice(index, 1);
-  }
-  return true;
+  const wordFrequency = getLetterFrequency(input);
+  const handFrequency = getLetterFrequency(lettersInHand);
+  return containsFrequency(handFrequency, wordFrequency);
 };
 
 export const scoreWord = (word) => {
-  const letterScores = {
-    A: 1, B: 3, C: 3, D: 2, E: 1, F: 4, G: 2, H: 4, I: 1,
-    J: 8, K: 5, L: 1, M: 3, N: 1, O: 1, P: 3, Q: 10, R: 1,
-    S: 1, T: 1, U: 1, V: 4, W: 4, X: 8, Y: 4, Z: 10,
-  };
-
   let score = 0;
   for (const letter of word.toUpperCase()) {
-    score += letterScores[letter] ?? 0;
+    score += LETTER_SCORES[letter] ?? 0;
   }
 
-  if (word.length >= 7 && word.length <= 10) {
-    score += 8;
+  if (
+    word.length >= LONG_WORD_BONUS_LENGTH_MIN &&
+    word.length <= LONG_WORD_BONUS_LENGTH_MAX
+  ) {
+    score += LONG_WORD_BONUS;
   }
   return score;
 };
 
-const MAX_WORD_LENGTH = 10;
-
 const beatsTiedWord = (word, best) => {
-  if (best.length === MAX_WORD_LENGTH) return false;
-  if (word.length === MAX_WORD_LENGTH) return true;
+  if (best.length === HAND_SIZE) return false;
+  if (word.length === HAND_SIZE) return true;
   return word.length < best.length;
 };
 
 export const highestScoreFrom = (words) => {
+  if (words.length === 0) {
+    throw new Error('highestScoreFrom requires at least one word');
+  }
+
   let best = null;
   for (const word of words) {
     const score = scoreWord(word);

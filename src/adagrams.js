@@ -27,7 +27,37 @@ const LETTER_POOL = {
   'Z': 1,
 };
 
+const POINTS_PER_LETTER = {
+  'A' : 1,
+  'B' : 3,
+  'C' : 3,
+  'D' : 2,
+  'E' : 1,
+  'F' : 4,
+  'G' : 2,
+  'H' : 4,
+  'I' : 1,
+  'J' : 8,
+  'K' : 5,
+  'L' : 1,
+  'M' : 3,
+  'N' : 1,
+  'O' : 1,
+  'P' : 3,
+  'Q' : 10,
+  'R' : 1,
+  'S' : 1,
+  'T' : 1,
+  'U' : 1,
+  'V' : 4,
+  'W' : 4,
+  'X' : 8,
+  'Y' : 4,
+  'Z' : 10
+};
+
 const HAND_SIZE = 10;
+const LONG_WORD_BONUS_MIN_LENGTH = 7;
 
 export const helperPickRandomLetter = (pool) => {
 
@@ -35,9 +65,7 @@ export const helperPickRandomLetter = (pool) => {
 
 };
 
-export const drawLetters = () => {
-  // Implement this method for wave 1
-  const hand = [];
+export const createAlphabetPool = () => {
   const alphabetPool = [];
 
   for (const letter in LETTER_POOL) {
@@ -45,31 +73,61 @@ export const drawLetters = () => {
       alphabetPool.push(letter);
     }
   }
+  return alphabetPool;
+};
 
-  // console.log(alphabetPool);
-  // while (hand.length < 10) 
-  
+export const drawLetters = () => {
+
+  const hand = [];
+  const alphabetPool = createAlphabetPool();
+
   Array.from({ length: HAND_SIZE }).forEach(() => {
     const letterIndex = helperPickRandomLetter(alphabetPool);
     const lastIndex = alphabetPool.length - 1;
     [alphabetPool[letterIndex], alphabetPool[lastIndex]] = [alphabetPool[lastIndex], alphabetPool[letterIndex]];
     hand.push(alphabetPool.pop());
-  })
-  // console.log(hand);
-  // console.log(alphabetPool.length);
+  });
+
   return hand;
 
 };
 
-// drawLetters();
-
-
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
+
+  const copyLetterPool = {};
+
+  for (const letter of lettersInHand) {
+    const lowerCaseLetter = letter.toLowerCase();
+    copyLetterPool[lowerCaseLetter] = copyLetterPool[lowerCaseLetter] ? copyLetterPool[lowerCaseLetter] + 1 : 1;
+  }
+
+  for (const letter of input) {
+    const lowerCaseInput = letter.toLowerCase();
+    if (copyLetterPool[lowerCaseInput]) {
+      copyLetterPool[lowerCaseInput] -= 1;
+    }
+    else {
+      return false;
+    }
+  }
+  return true;
 };
 
 export const scoreWord = (word) => {
   // Implement this method for wave 3
+  const wordList = [...word.toUpperCase()];
+  let totalPoints = 0;
+
+  if (word.length >= LONG_WORD_BONUS_MIN_LENGTH) {
+    totalPoints += 8;
+  };
+
+  for (const letter of wordList) {
+    if (POINTS_PER_LETTER[letter]) {
+      totalPoints += POINTS_PER_LETTER[letter];
+    }
+  }
+  return totalPoints;
 };
 
 export const highestScoreFrom = (words) => {

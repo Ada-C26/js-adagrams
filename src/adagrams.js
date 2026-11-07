@@ -44,11 +44,12 @@ export const drawLetters = () => {
     'Y': 2,
     'Z': 1
   };
+  const NUM_TILES_ALLOWED_IN_HAND = 10;
 
   let hand = [];
   let numLettersInPool = sumValuesOfObject(LETTER_POOL);
 
-  while (hand.length < 10) {
+  while (hand.length < NUM_TILES_ALLOWED_IN_HAND) {
     let randomNum = Math.floor(Math.random() * numLettersInPool) + 1;
     let temp = 0;
 

@@ -47,25 +47,20 @@ export const drawLetters = () => {
 
 //Wave 2 check whether a word can be made from the letters in a hand
 
-//inut is the word the player types
-//lettersInHand is the array of 10 random letters
 export const usesAvailableLetters = (input, lettersInHand) => {
 
-  //empty object will become counter like letter_counts = {key:value}
+  //object as counter
   const letterCounts = {};
 
-  //count the hand
-  //for i in var_name: -> for (const i of varName) {}
-  //loop over each item in array, make a dictionary of the letters in hand as the key and the count as the value
+  //loop over each item in array to make counter object
   for (const letter of lettersInHand) {
-    //what's the count for this letter? -> letterCounts[letter]
-    //use the letterCounts variable or 0 if there isn't one. || automatically picks left if the right is empty. +1 increment
+    //count for this letter is in counter or 0 + increment 1
     letterCounts[letter] = (letterCounts[letter] || 0) + 1;
   }
 
   //loop through the letters of the players input
   for (const letter of input) {
-    //if it's not in there
+    //if input letter is not in our counter
     if (!letterCounts[letter]) {
       //stop, don't check the rest
       return false;

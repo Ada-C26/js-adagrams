@@ -103,6 +103,30 @@ export const scoreWord = (word) => {
   return score;
 };
 
+//Wave #4
+
+const winsTie = (word, bestWord) => {
+  if (bestWord.length == HAND_SIZE) {
+    return false;
+  }
+  if (word.length === HAND_SIZE) {
+    return true;
+  }
+  return word.length < bestWord.length;
+};
+
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+  let bestWord = words[0];
+  let bestScore = scoreWord(bestWord);
+
+  for (const word of words) {
+    const score = scoreWord(word);
+    if (score > bestScore) {
+      bestWord = word;
+      bestScore = score;
+    } else if (score === bestScore && winsTie(word, bestWord)) {
+      bestWord = word;
+    }
+  }
+  return {word: bestWord, score: bestScore};
 };

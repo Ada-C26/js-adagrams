@@ -77,18 +77,22 @@ export const drawLetters = () => {
 export const usesAvailableLetters = (input, lettersInHand) => {
   const letterCounts = new Map();
 
+  // Count how many times each letter appears in the hand.
   for (const letter of lettersInHand) {
     const count = letterCounts.get(letter) || 0;
     letterCounts.set(letter, count + 1);
   }
 
-  for (const letter of input) {
+  // Check each letter in the word.
+  for (const letter of input.toUpperCase()) {
     const count = letterCounts.get(letter) || 0;
 
+    // Return false if the hand does not have this letter.
     if (count === 0) {
       return false;
     }
 
+    // Use one copy of this letter.
     letterCounts.set(letter, count - 1);
   }
 

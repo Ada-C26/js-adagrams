@@ -92,9 +92,34 @@ export const usesAvailableLetters = (input, lettersInHand) => {
 };
 
 export const scoreWord = (word) => {
-  // Implement this method for wave 3
+  let score = 0;
+
+  for (const letter of word) {
+    const upperLetter = letter.toUpperCase();
+    score += LETTER_VALUES[upperLetter];
+  }
+  if (word.length >= 7 && word.length <= 10) {
+    score += 8;
+  }
+  return score;
 };
 
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+  let winningWord = words[0];
+  let winningScore = scoreWord(winningWord);
+
+  for (const word of words) {
+    const currentScore = scoreWord(word);
+
+    if (currentScore > winningScore) {
+      winningWord = word;
+      winningScore = currentScore;
+    } else if (currentScore === winningScore) {
+      if (winningWord.length !== 10 && (word.length === 10 || word.length < winningWord.length)) {
+        winningWord = word;
+        winningScore = currentScore;
+      }
+    }
+  }
+  return { word: winningWord, score: winningScore };
 };

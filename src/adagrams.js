@@ -72,13 +72,35 @@ export const usesAvailableLetters = (input, lettersInHand) => {
   return true;
 };
 
+//Wave 3 - Return the point total for a word
 
+const SCORE_CHART = {
+  A: 1, E: 1, I: 1, O: 1, U: 1, L: 1, N: 1, R: 1, S: 1, T: 1,
+  D: 2, G: 2,
+  B: 3, C: 3, M: 3, P: 3,
+  F: 4, H: 4, V: 4, W: 4, Y: 4,
+  K: 5,
+  J: 8, X: 8,
+  Q: 10, Z: 10,
+};
 
-
-
+//named constants for readability
+const BONUS_POINTS = 8;
+const BONUS_MIN_LENGTH = 7;
+const BONUS_MAX_LENGTH = 10;
 
 export const scoreWord = (word) => {
-  // Implement this method for wave 3
+  let score = 0;
+  //loop through the letters in given word to be scored
+  for (const letter of word.toUpperCase()) {
+    //add points to score
+    score += SCORE_CHART[letter];
+  }
+  //if statement for bonus points
+  if (word.length >= BONUS_MIN_LENGTH && word.length <= BONUS_MAX_LENGTH) {
+    score += BONUS_POINTS;
+  }
+  return score;
 };
 
 export const highestScoreFrom = (words) => {

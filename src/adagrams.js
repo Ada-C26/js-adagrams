@@ -1,4 +1,4 @@
-//WAVE 1 - Build a hand of 10 random letters from the letter pool.
+//WAVE 1 - Build a hand of 10 random letters from the letter pool
 
 //unchangable letter pool
 const LETTER_POOL = {
@@ -7,21 +7,23 @@ const LETTER_POOL = {
   S: 4, T: 6, U: 4, V: 2, W: 2, X: 1, Y: 2, Z: 1,
 };
 
-//so the reader knows what 10 means
+//named constant for readability
 const HAND_SIZE = 10;
 
 //helper function to convert LETTER_POOL into a bag of letters
 const buildLetterBag = () => {
+
   const letterBag = [];
-  //loop through LETTER_POOL and create an array. Assign letter & count const
+
+  //loops through each item in new LETTER_POOL array. Assign letter & count const
   for (const [letter, count] of Object.entries(LETTER_POOL)) {
-    //loo pthrough each letter count num of times, add to bag, increment.
+    //loop through each letter count num of times, increment.
     for (let i = 0; i < count; i++) {
       //add to bag.
       letterBag.push(letter);
     }
   }
-  //returns the 98 individual letter strings
+  //returns the individual letter strings
   return letterBag;
 };
 
@@ -29,14 +31,19 @@ const buildLetterBag = () => {
 export const drawLetters = () => {
   //fresh bag
   const letterBag = buildLetterBag();
+
   //array for players 10 letters
   const hand = [];
+
   //(Python vs. JavaScript for i in range(count): -> for (let i = 0; i < count; i++);
   for (let i = 0; i < HAND_SIZE; i++) {
+
     //randomIndex in bag made by (random decimal * 98) then round down
     const randomIndex = Math.floor(Math.random() * letterBag.length);
+
     //grab a letter by using .splice(randomIndex, only grab 1);
     const [letter] = letterBag.splice(randomIndex, 1);
+
     //.push like .append, adds it to the hand.
     hand.push(letter);
   }
@@ -111,6 +118,7 @@ const winsTie = (word, bestWord) => {
   if (bestWord.length == HAND_SIZE) {
     return false;
   }
+
   //new word has 10 letters
   if (word.length === HAND_SIZE) {
     return true;
@@ -125,7 +133,7 @@ export const highestScoreFrom = (words) => {
 
   //loop through each word in the list
   for (const word of words) {
-    //score this word once and save it, so we don't call scoreWord twice.
+    //score this word once and save it, so we don't call scoreWord twice
     const score = scoreWord(word);
 
     //update based on the winner

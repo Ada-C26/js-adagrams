@@ -103,30 +103,40 @@ export const scoreWord = (word) => {
   return score;
 };
 
-//Wave #4
+//Wave #4 - find the winning word using tie breaker
 
+// helper to break tie
 const winsTie = (word, bestWord) => {
+  //current best has 10 letters, current best wins
   if (bestWord.length == HAND_SIZE) {
     return false;
   }
+  //new word has 10 letters
   if (word.length === HAND_SIZE) {
     return true;
-  }
+  }//if the new word is longer or the same length return false
   return word.length < bestWord.length;
 };
 
 export const highestScoreFrom = (words) => {
+  //start with the first word
   let bestWord = words[0];
   let bestScore = scoreWord(bestWord);
 
+  //loop through each word in the list
   for (const word of words) {
+    //score this word once and save it, so we don't call scoreWord twice.
     const score = scoreWord(word);
+
+    //update based on the winner
     if (score > bestScore) {
       bestWord = word;
       bestScore = score;
+      //use tie breaker
     } else if (score === bestScore && winsTie(word, bestWord)) {
       bestWord = word;
     }
   }
+  //return object
   return {word: bestWord, score: bestScore};
 };

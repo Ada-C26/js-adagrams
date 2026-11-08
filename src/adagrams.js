@@ -1,15 +1,150 @@
-export const drawLetters = () => {
-  // Implement this method for wave 1
+//WAVE 1 - Build a hand of 10 random letters from the letter pool
+
+//unchangable letter pool
+const LETTER_POOL = {
+  A: 9, B: 2, C: 2, D: 4, E: 12, F: 2, G: 3, H: 2, I: 9,
+  J: 1, K: 1, L: 4, M: 2, N: 6, O: 8, P: 2, Q: 1, R: 6,
+  S: 4, T: 6, U: 4, V: 2, W: 2, X: 1, Y: 2, Z: 1,
 };
+
+//named constant for readability
+const HAND_SIZE = 10;
+
+//helper function to convert LETTER_POOL into a bag of letters
+const buildLetterBag = () => {
+
+  const letterBag = [];
+
+  //loops through each item in new LETTER_POOL array. Assign letter & count const
+  for (const [letter, count] of Object.entries(LETTER_POOL)) {
+    //loop through each letter count num of times, increment.
+    for (let i = 0; i < count; i++) {
+      //add to bag.
+      letterBag.push(letter);
+    }
+  }
+  //returns the individual letter strings
+  return letterBag;
+};
+
+//pick 10 letters
+export const drawLetters = () => {
+  //fresh bag
+  const letterBag = buildLetterBag();
+
+  //array for players 10 letters
+  const hand = [];
+
+  //(Python vs. JavaScript for i in range(count): -> for (let i = 0; i < count; i++);
+  for (let i = 0; i < HAND_SIZE; i++) {
+
+    //randomIndex in bag made by (random decimal * 98) then round down
+    const randomIndex = Math.floor(Math.random() * letterBag.length);
+
+    //grab a letter by using .splice(randomIndex, only grab 1);
+    const [letter] = letterBag.splice(randomIndex, 1);
+
+    //.push like .append, adds it to the hand.
+    hand.push(letter);
+  }
+  //returns an array of 10 chars
+  return hand;
+};
+
+
+//Wave 2 check whether a word can be made from the letters in a hand
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
+
+  //object as counter
+  const letterCounts = {};
+
+  //loop over each item in array to make counter object
+  for (const letter of lettersInHand) {
+    //count for this letter is in counter or 0 + increment 1
+    letterCounts[letter] = (letterCounts[letter] || 0) + 1;
+  }
+
+  //loop through the letters of the players input
+  for (const letter of input) {
+    //if input letter is not in our counter
+    if (!letterCounts[letter]) {
+      //stop, don't check the rest
+      return false;
+    }
+    //decrement the letter that got used from the counter
+    letterCounts[letter] -= 1;
+  }
+  //otherwise the word works
+  return true;
 };
 
+//Wave 3 - Return the point total for a word
+
+const SCORE_CHART = {
+  A: 1, E: 1, I: 1, O: 1, U: 1, L: 1, N: 1, R: 1, S: 1, T: 1,
+  D: 2, G: 2,
+  B: 3, C: 3, M: 3, P: 3,
+  F: 4, H: 4, V: 4, W: 4, Y: 4,
+  K: 5,
+  J: 8, X: 8,
+  Q: 10, Z: 10,
+};
+
+//named constants for readability
+const BONUS_POINTS = 8;
+const BONUS_MIN_LENGTH = 7;
+const BONUS_MAX_LENGTH = 10;
+
 export const scoreWord = (word) => {
-  // Implement this method for wave 3
+  let score = 0;
+  //loop through the letters in given word to be scored
+  for (const letter of word.toUpperCase()) {
+    //add points to score
+    score += SCORE_CHART[letter];
+  }
+  //if statement for bonus points
+  if (word.length >= BONUS_MIN_LENGTH && word.length <= BONUS_MAX_LENGTH) {
+    score += BONUS_POINTS;
+  }
+  return score;
+};
+
+//Wave #4 - find the winning word using tie breaker
+
+// helper to break tie
+const winsTie = (word, bestWord) => {
+  //current best has 10 letters, current best wins
+  if (bestWord.length == HAND_SIZE) {
+    return false;
+  }
+
+  //new word has 10 letters
+  if (word.length === HAND_SIZE) {
+    return true;
+  }//if the new word is longer or the same length return false
+  return word.length < bestWord.length;
 };
 
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+  //start with the first word
+  let bestWord = words[0];
+  let bestScore = scoreWord(bestWord);
+
+  //loop through each word in the list
+  for (const word of words) {
+    //score this word once and save it, so we don't call scoreWord twice
+    const score = scoreWord(word);
+
+    //update based on the winner
+    if (score > bestScore) {
+      bestWord = word;
+      bestScore = score;
+      //use tie breaker
+    } else if (score === bestScore && winsTie(word, bestWord)) {
+      bestWord = word;
+    }
+  }
+  //return object
+  return {word: bestWord, score: bestScore};
 };

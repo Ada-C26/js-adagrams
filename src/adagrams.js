@@ -1,3 +1,4 @@
+// This object shows how many times each letter is in the pool.
 const LETTER_POOL = {
   A: 9,
   B: 2,
@@ -28,6 +29,8 @@ const LETTER_POOL = {
 };
 
 
+
+// This object shows how many points each letter is worth.
 const LETTER_SCORES = {
   A: 1, E: 1, I: 1, O: 1, U: 1,
   L: 1, N: 1, S: 1, T: 1, R: 1,
@@ -39,11 +42,13 @@ const LETTER_SCORES = {
   Q: 10, Z: 10,
 };
 
+
+// The minimum word length and bonus points for a long word.
 const BONUS_LENGTH = 7;
 const BONUS_POINTS = 8;
 
 
-
+// Draws ten letters from the letter pool.
 export const drawLetters = () => {
   const availableLetters = [];
 
@@ -53,6 +58,7 @@ export const drawLetters = () => {
     }
   }
 
+  // Draw ten random letters from the available letters.
   const drawnLetters = [];
 
   for (let i = 0; i < 10; i++) {
@@ -67,7 +73,7 @@ export const drawLetters = () => {
 };
 
 
-
+// Checks whether the input word uses only the available letters.
 export const usesAvailableLetters = (input, lettersInHand) => {
   const letterCounts = new Map();
 
@@ -90,7 +96,7 @@ export const usesAvailableLetters = (input, lettersInHand) => {
 };
 
 
-
+// Calculates the score for a word.
 export const scoreWord = (word) => {
   const upperCaseWord = word.toUpperCase();
   let score = 0;
@@ -108,6 +114,7 @@ export const scoreWord = (word) => {
 
 
 
+// Returns the highest-scoring word from an array of words.
 export const highestScoreFrom = (words) => {
   let bestWord = '';
   let bestScore = 0;

@@ -8,7 +8,8 @@
     "test": "NODE_OPTIONS='--no-webstorage --experimental-vm-modules' jest",
     "lint": "npx eslint",
     "coverage": "open coverage/lcov-report/index.html",
-    "demo-game": "node src/demo.js"
+    "demo-game": "node src/demo.js",
+    "start" : "node src/adagrams.js"
   },
   "repository": {
     "type": "git",

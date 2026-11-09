@@ -91,18 +91,44 @@ export const usesAvailableLetters = (input, lettersInHand) => {
 export const scoreWord = (word) => {
   let value = 0;
   for (const char of word) {
-    console.log(char);
     value += LETTER_VALUE[char.toUpperCase()];
-    console.log('add up:', value);
   } if (word.length > 6 && word.length < 11) {
     value += 8;
-    console.log('additional:', value);
   }
   return value;
 };
 
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+  const words_value = {};
+  for (const word of words) {
+    let value = 0;
+    for (const char of word) {
+      value += LETTER_VALUE[char.toUpperCase()];
+    } if (word.length > 6 && word.length < 11) {
+      value += 8;
+    } words_value[word] = value;
+  } //console.log(words_value)
+
+  let highest = Object.fromEntries([Object.entries(words_value)[0]]);
+  for (const key in words_value) {
+    //console.log(key, words_value[key]);
+    if (words_value[key] > Object.values(highest)[0]) {
+      highest = {[key]: words_value[key]};
+    } else if (words_value[key] == highest) {
+      if (Object.keys(highest)[0].length >= 10) {
+        continue;
+      } if (key.length >= 10) {
+        highest = {[key]: words_value[key]};
+        //console.log('A=B:', highest);
+        continue;
+      } if (key.length > Object.keys(highest)[0].length);
+        highest = {[key]: words_value[key]};
+    } //console.log('A=B:', highest);
+  }  
+  const [word, score] = Object.entries(highest)[0];
+  const result = {score: score, word: word};
+  console.log(result)
+  return result
 };
 
-scoreWord('a');
+highestScoreFrom(['AAAAAAAAAA', 'BBBBBB']);

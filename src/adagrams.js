@@ -73,7 +73,10 @@ export const drawLetters = () => {
 
   for (let i = 0; i < 10; i++) {
     const randomIndex = Math.floor(Math.random() * letters.length);
-    lettersInHand.push(letters.splice(randomIndex, 1)[0]);
+    const lastLetter = letters.length - 1;
+
+    [letters[randomIndex], letters[lastLetter]] = [letters[lastLetter], letters[randomIndex]];
+    lettersInHand.push(letters.pop());
   }
   return lettersInHand;
 };

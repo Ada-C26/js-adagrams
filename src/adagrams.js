@@ -57,6 +57,9 @@ const SCORE_CHART = {
 };
 
 const HAND_SIZE = 10;
+const MIN_WORD_LENGTH = 7;
+const MAX_WORD_LENGTH = 10;
+const BONUS_POINTS = 8;
 
 export const drawLetters = () => {
   // Implement this method for wave 1
@@ -109,8 +112,8 @@ export const scoreWord = (word) => {
     points += SCORE_CHART[letter];
   }
 
-  if (word.length >= 7 && word.length <= 10) {
-    points += 8;
+  if (word.length >= MIN_WORD_LENGTH && word.length <= MAX_WORD_LENGTH) {
+    points += BONUS_POINTS;
   }
 
   return points;
@@ -118,20 +121,20 @@ export const scoreWord = (word) => {
 
 export const highestScoreFrom = (words) => {
   // Implement this method for wave 4
-  let currentWord = '';
-  let currentScore = 0;
+  let bestWord = '';
+  let bestScore = 0;
 
   for (const word of words) {
     const score = scoreWord(word);
-    if (score > currentScore) {
-      currentWord = word;
-      currentScore = score;
-    } else if (score === currentScore && currentWord.length != 10) {
-      if (word.length < currentWord.length || word.length === 10) {
-        currentWord = word;
+    if (score > bestScore) {
+      bestWord = word;
+      bestScore = score;
+    } else if (score === bestScore && bestWord.length != HAND_SIZE) {
+      if (word.length < bestWord.length || word.length === HAND_SIZE) {
+        bestWord = word;
       }
     }
   }
 
-  return { word: currentWord, score: currentScore };
+  return { word: bestWord, score: bestScore };
 };

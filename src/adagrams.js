@@ -78,7 +78,7 @@ export const usesAvailableLetters = (input, lettersInHand) => {
   }
 
   for (const letter of input.toUpperCase()) {
-    if (!hand[letter] || hand[letter] === 0) {
+    if (!(letter in hand) || hand[letter] === 0) {
       return false;
     }
     hand[letter] -= 1;

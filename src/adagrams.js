@@ -5,7 +5,6 @@ import {
   handleTiedScore
 } from './helpers.js';
 
-// Wave 1
 export const drawLetters = () => {
   const userList = [];
   const pool = { ...LETTER_POOL };
@@ -18,7 +17,6 @@ export const drawLetters = () => {
   return userList;
 };
 
-// Wave 2
 export const usesAvailableLetters = (input, lettersInHand) => {
   const lettersDict = {};
 
@@ -88,4 +86,3 @@ export const highestScoreFrom = (words) => {
 
   return { word: highestWord, score: highestScore };
 };
-

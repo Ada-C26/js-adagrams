@@ -9,6 +9,7 @@ K: 5, J: 8, X: 8,Q: 10, Z: 10 };
 
 const HAND_SIZE = 10;
 
+// function that draws 10 letters from the pool of letters and returns an array of those letters
 export const drawLetters = () => {
   const lettersDrawnArray = [];
   const availableLetters = [];
@@ -28,6 +29,7 @@ export const drawLetters = () => {
   return lettersDrawnArray;
 };
 
+// function that checks if the input word can be made from the letters in hand
 export const usesAvailableLetters = (input, lettersInHand) => {
 
   const availableLetters = [...lettersInHand];
@@ -43,7 +45,7 @@ export const usesAvailableLetters = (input, lettersInHand) => {
   return true;
 
 };
-
+//calculates the score of a word based on letter values and length bonuses
 export const scoreWord = (word) => {
   let totalScore = 0;
 

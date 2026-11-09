@@ -46,7 +46,7 @@ export const drawLetters = () => {
   };
   const NUM_TILES_ALLOWED_IN_HAND = 10;
 
-  let hand = [];
+  const hand = [];
   let numLettersInPool = sumValuesOfObject(LETTER_POOL);
 
   while (hand.length < NUM_TILES_ALLOWED_IN_HAND) {
@@ -72,9 +72,9 @@ export const drawLetters = () => {
 // Wave 2
 export const usesAvailableLetters = (input, lettersInHand) => {
 
-  let hand = {};
+  const hand = {};
   for (const letter of lettersInHand) {
-    hand[letter] = hand.get(letter, 0) + 1;
+    hand[letter] = (hand[letter] || 0) + 1;
   }
 
   for (const letter of input.toUpperCase()) {
@@ -87,8 +87,32 @@ export const usesAvailableLetters = (input, lettersInHand) => {
   return true;
 };
 
+
+// Wave 3
 export const scoreWord = (word) => {
-  // Implement this method for wave 3
+
+  const SCORE_DISTRIBUTION = {
+    'A': 1, 'E': 1, 'I': 1, 'O': 1, 'U': 1, 'L': 1,
+    'N': 1, 'R': 1, 'S': 1, 'T': 1, 'D': 2,
+    'G': 2, 'B': 3, 'C': 3, 'M': 3, 'P': 3,
+    'F': 4, 'H': 4, 'V': 4, 'W': 4, 'Y': 4,
+    'K': 5, 'J': 8, 'X': 8, 'Q': 10, 'Z': 10
+  };
+  const BONUS_POINTS_FOR_LENGTH = 8;
+
+  let score = 0;
+
+  for (const letter of word.toUpperCase()) {
+    if (letter in SCORE_DISTRIBUTION) {
+      score += SCORE_DISTRIBUTION[letter];
+    }
+  }
+
+  if (6 < word.length && word.length < 11) {
+    score += BONUS_POINTS_FOR_LENGTH;
+  }
+
+  return score;
 };
 
 export const highestScoreFrom = (words) => {

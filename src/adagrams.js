@@ -126,7 +126,7 @@ const breakTie = (word, winningWord) => {
 
 export const highestScoreFrom = (words) => {
   if (words.length === 0) {
-    return { word: null, score: 0 };
+    return { word: '', score: 0 };
   }
 
   let winningWord = words[0];

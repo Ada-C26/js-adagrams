@@ -6,13 +6,33 @@
   <title>Adagrams</title>
 </head>
 <body>
-  <h1>Adagrams</h1>
+  <main>
+    <h1>Adagrams</h1>
 
-  <p>Draw 10 letters to start playing!</p>
+    <section>
+      <p>Draw 10 letters to start playing!</p>
 
-  <button id="drawButton">Draw Letters</button>
+      <button id="drawButton">Draw Letters</button>
 
-  <div id="letterBank"></div>
+      <div id="letterBank"></div>
+    </section>
+
+    <section>
+      <h2>Submit a Word</h2>
+
+      <label for="wordInput">Enter a word:</label>
+      <input
+        type="text"
+        id="wordInput"
+        placeholder="Enter a word"
+      />
+
+      <button id="submitButton">Submit</button>
+
+      <p id="result"></p>
+      <p id="score"></p>
+    </section>
+  </main>
 
   <script type="module" src="./app.js"></script>
 </body>

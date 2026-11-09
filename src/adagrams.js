@@ -58,7 +58,6 @@ const LETTER_VALUES = {
 
 const BONUS_POINTS_FOR_LENGTH = 8;
 
-// helper function
 const buildLetterPool = () => {
   let letters = [];
 
@@ -114,8 +113,6 @@ export const scoreWord = (word) => {
   return score;
 };
 
-// helper function
-
 const breakTie = (word, winningWord) => {
   if (winningWord.length === 10) {
     return winningWord;
@@ -123,9 +120,8 @@ const breakTie = (word, winningWord) => {
     return word;
   } else if (word.length < winningWord.length) {
     return word;
-  } else {
-    return winningWord;
   }
+  return winningWord;
 };
 
 export const highestScoreFrom = (words) => {

@@ -56,14 +56,19 @@ const LETTER_VALUES = {
   Z: 10
 };
 
-export const drawLetters = () => {
+// helper function
+const buildLetterPool = () => {
   let letters = [];
 
   for (const letter in LETTER_POOL) {
     const count = LETTER_POOL[letter];
     letters.push(...Array(count).fill(letter));
   }
+  return letters;
+};
 
+export const drawLetters = () => {
+  let letters = buildLetterPool();
   let lettersInHand = [];
 
   for (let i = 0; i < 10; i++) {

@@ -14,6 +14,34 @@ const sumValuesOfObject = (obj) => {
   return totalSum;
 };
 
+/**
+ * This helper function was created to help calculate
+ * the highest score for the Adagrams game.
+ *
+ * Since there are no negative scores,
+ * this function was implemented to accept
+ * only numbers >= 0 (object keys).
+ *
+ * Input: object with scores as keys
+ * Output: the max key
+ */
+const maxNumber = (numsDict) => {
+  if (!numsDict) {
+    return null;
+  }
+
+  let maxNum = 0;
+
+  for (const num in numsDict) {
+    if (num > maxNum) {
+      maxNum = num;
+    }
+  }
+
+  return maxNum;
+};
+
+
 // Wave 1
 export const drawLetters = () => {
   const LETTER_POOL = {
@@ -115,6 +143,8 @@ export const scoreWord = (word) => {
   return score;
 };
 
+
+// Wave 4
 export const highestScoreFrom = (words) => {
   // Implement this method for wave 4
 };

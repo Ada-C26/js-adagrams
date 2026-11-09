@@ -62,18 +62,15 @@ This is shorthand for the command `open coverage/lcov-report/index.html` and wil
 
 In addition to the provided unit tests, we provided a demo game application that uses Adagrams code that you will implement. You can play the game as you implement each wave of the project and verify that game functionality begins to work, in addition to passing unit tests. Don't forget; making the demo game work is optional-- **passing the unit tests is required.**
 
-<details>
-
-  <summary>
-    For more details on how to run the demo game, click here!
-  </summary>
+### For more details on how to run the demo game
 
 You can start the demo game application with the following command:
 
 ```bash
 $ npm run demo-game
 ```
-This will start the Adagrams prompt, and you can start a new game by typing `start` (or `start <num>` for a game with multiple players). To exit the game you can either enter `exit` (you will have to enter this a few times) or press `Control + C` twice. 
+
+This will start the Adagrams prompt, and you can start a new game by typing `start` (or `start <num>` for a game with multiple players). To exit the game you can either enter `exit` (you will have to enter this a few times) or press `Control + C` twice.
 
 Once the game has started each player is prompted to play anagrams from the displayed letter bank until their turn completes. At the end of each round the player who played the best word (according to the logic you will implement in wave 4) is awarded points based on that word. Once all rounds are completed the game announced who won with the point total for that player.
 

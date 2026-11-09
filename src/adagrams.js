@@ -81,12 +81,12 @@ export const drawLetters = () => {
   const hand = [];
   const alphabetPool = createAlphabetPool();
 
-  for (let i =0; i < HAND_SIZE; i++) {
+  for (let i = 0; i < HAND_SIZE; i++) {
     const letterIndex = helperPickRandomLetter(alphabetPool);
     const lastIndex = alphabetPool.length - 1;
     [alphabetPool[letterIndex], alphabetPool[lastIndex]] = [alphabetPool[lastIndex], alphabetPool[letterIndex]];
     hand.push(alphabetPool.pop());
-  };
+  }
 
   return hand;
 
@@ -97,14 +97,13 @@ export const usesAvailableLetters = (input, lettersInHand) => {
   const copyLetterPool = {};
 
   for (const letter of lettersInHand) {
-    const lowerCaseLetter = letter.toLowerCase();
-    copyLetterPool[lowerCaseLetter] = (copyLetterPool[lowerCaseLetter] || 0) + 1;
+    copyLetterPool[letter] = (copyLetterPool[letter] || 0) + 1;
   }
 
   for (const letter of input) {
-    const lowerCaseInput = letter.toLowerCase();
-    if (copyLetterPool[lowerCaseInput]) {
-      copyLetterPool[lowerCaseInput] -= 1;
+    const upperCaseInput = letter.toUpperCase();
+    if (copyLetterPool[upperCaseInput]) {
+      copyLetterPool[upperCaseInput] -= 1;
     }
     else {
       return false;
@@ -141,27 +140,28 @@ export const highestScoreFrom = (words) => {
 
   const tiedWords = [];
   for (const word of words) {
-    if (scoreWord(word) == maxScore) {
+    const wordScore = scoreWord(word);
+    if (wordScore === maxScore) {
       tiedWords.push(word);
     }
   }
 
   if (tiedWords.length === 1) {
-    return {'score': maxScore, 'word': tiedWords[0]};
+    return { score: maxScore, word: tiedWords[0]};
   }
 
   for (const word of tiedWords) {
     if (word.length === 10) {
-      return {'score': maxScore, 'word': word};
+      return { score: maxScore, word: word};
     }
   }
 
   let winningWord = tiedWords[0];
-  for (let i = 0; i < tiedWords.length; i++) {
+  for (let i = 1; i < tiedWords.length; i++) {
     if (tiedWords[i].length < winningWord.length) {
       winningWord = tiedWords[i];
     }
   }
-  return {'score': maxScore, 'word': winningWord};
+  return { score: maxScore, word: winningWord};
 
 };

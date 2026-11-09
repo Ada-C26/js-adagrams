@@ -56,6 +56,8 @@ const LETTER_VALUES = {
   Z: 10
 };
 
+const BONUS_POINTS_FOR_LENGTH = 8;
+
 // helper function
 const buildLetterPool = () => {
   let letters = [];
@@ -107,7 +109,7 @@ export const scoreWord = (word) => {
     score += LETTER_VALUES[upperLetter];
   }
   if (word.length >= 7 && word.length <= 10) {
-    score += 8;
+    score += BONUS_POINTS_FOR_LENGTH;
   }
   return score;
 };

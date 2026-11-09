@@ -11,6 +11,10 @@
  * Output: the sum of the numeric values
  */
 const sumValuesOfObject = (obj) => {
+  if (!obj) {
+    return null;
+  }
+
   let totalSum = 0;
 
   for (const key in obj) {
@@ -32,14 +36,14 @@ const sumValuesOfObject = (obj) => {
  * Input: object with scores as keys
  * Output: the max key
  */
-const maxNumber = (numsDict) => {
-  if (!numsDict) {
+const maxNumber = (numsObj) => {
+  if (!numsObj) {
     return null;
   }
 
   let maxNum = 0;
 
-  for (const num in numsDict) {
+  for (const num in numsObj) {
     if (num > maxNum) {
       maxNum = Number(num);
     }

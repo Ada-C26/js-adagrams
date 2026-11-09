@@ -82,19 +82,19 @@ export const drawLetters = () => {
 };
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  let letters = [];
+  const letterFrequencies = {};
 
   for (const letter of lettersInHand) {
-    letters.push(letter);
+    letterFrequencies[letter] = (letterFrequencies[letter] || 0) + 1;
   }
 
   for (const letter of input) {
     const upperLetter = letter.toUpperCase();
 
-    if (!letters.includes(upperLetter)) {
+    if (!letterFrequencies[upperLetter] || letterFrequencies[upperLetter] === 0) {
       return false;
     }
-    letters.splice(letters.indexOf(upperLetter), 1);
+    letterFrequencies[upperLetter] -= 1;
   }
   return true;
 };

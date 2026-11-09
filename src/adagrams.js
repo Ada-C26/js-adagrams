@@ -1,8 +1,14 @@
+// HELPER FUNCTIONS
+
+
 /**
  * This helper function was created to help dynamically
- * calculate the number of letters from LETTER_POOL
+ * calculate the number of letters in LETTER_POOL
  *
- * It calculates the total sum the numeric values of an object
+ * It calculates the total sum of the numeric values of an object
+ *
+ * Input: object with numeric values
+ * Output: the sum of the numeric values
  */
 const sumValuesOfObject = (obj) => {
   let totalSum = 0;
@@ -13,6 +19,7 @@ const sumValuesOfObject = (obj) => {
 
   return totalSum;
 };
+
 
 /**
  * This helper function was created to help calculate
@@ -34,12 +41,41 @@ const maxNumber = (numsDict) => {
 
   for (const num in numsDict) {
     if (num > maxNum) {
-      maxNum = num;
+      maxNum = Number(num);
     }
   }
 
   return maxNum;
 };
+
+
+/**
+ * This helper function was created to handle
+ * the tie breaking logic for Wave 4.
+ *
+ * Input: an array containing tied words with the highest score
+ * Output: a string representing the word that wins the tie breaker
+ */
+const breakTie = (highestScoreArray) => {
+
+  let minLength = highestScoreArray[0].length;
+  let wordChoice = highestScoreArray[0];
+
+  for (const wordName of highestScoreArray) {
+    if (wordName.length === 10) {
+      wordChoice = wordName;
+      break;
+    } else if (wordName.length < minLength) {
+      minLength = wordName.length;
+      wordChoice = wordName;
+    }
+  }
+
+  return wordChoice;
+};
+
+
+// MAIN FUNCTIONS
 
 
 // Wave 1
@@ -146,5 +182,26 @@ export const scoreWord = (word) => {
 
 // Wave 4
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+
+  const wordInfo = {};
+
+  for (const word of words) {
+    const score = scoreWord(word);
+    if (!(score in wordInfo)) {
+      wordInfo[score] = [];
+    }
+    wordInfo[score].push(word);
+  }
+
+  const highestScore = maxNumber(wordInfo);
+  const highestScoreArray = wordInfo[highestScore];
+  let wordChoice;
+
+  if (highestScoreArray.length === 1) {
+    wordChoice = highestScoreArray[0];
+  } else {
+    wordChoice = breakTie(highestScoreArray);
+  }
+
+  return { word: wordChoice, score: highestScore };
 };

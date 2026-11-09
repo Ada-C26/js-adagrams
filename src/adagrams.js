@@ -78,8 +78,8 @@ export const drawLetters = () => {
 
 export const usesAvailableLetters = (input, lettersInHand) => {
   for (const char of input) {
-    if (lettersInHand.includes(char)) {
-      const rmindex = lettersInHand.indexOf(char);
+    if (lettersInHand.includes(char.toUpperCase())) {
+      const rmindex = lettersInHand.indexOf(char.toUpperCase());
       lettersInHand.splice(rmindex, 1);
     } else {
       return false;

@@ -129,10 +129,14 @@ const breakTie = (word, winningWord) => {
 };
 
 export const highestScoreFrom = (words) => {
+  if (words.length === 0) {
+    return { word: null, score: 0 };
+  }
+
   let winningWord = words[0];
   let winningScore = scoreWord(winningWord);
 
-  for (const word of words) {
+  for (const word of words.slice(1)) {
     const currentScore = scoreWord(word);
 
     if (currentScore > winningScore) {

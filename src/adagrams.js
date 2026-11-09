@@ -19,6 +19,7 @@ const SCORE_CHART = {
 };
 
 const HAND_SIZE = 10;
+const BONUS_WORD_LENGTH = 7;
 const BONUS_POINTS = 8;
 
 export const genLetterDistribution = () => {
@@ -39,7 +40,7 @@ export const drawLetters = () => {
 
   let hand = [];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < HAND_SIZE; i++) {
     while (true) {
       let randomIndex = Math.floor(Math.random() * letterDistribution.length);
 
@@ -79,7 +80,7 @@ export const scoreWord = (word) => {
     sum += SCORE_CHART[letter] || 0;
   }
 
-  if (word.length >= 7 ) sum += BONUS_POINTS;
+  if (word.length >= BONUS_WORD_LENGTH ) sum += BONUS_POINTS;
 
   return sum;
 };

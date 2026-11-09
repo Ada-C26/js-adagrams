@@ -68,10 +68,23 @@ export const drawLetters = () => {
   return hand;
 };
 
-console.log(drawLetters());
 
+// Wave 2
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
+
+  let hand = {};
+  for (const letter of lettersInHand) {
+    hand[letter] = hand.get(letter, 0) + 1;
+  }
+
+  for (const letter of input.toUpperCase()) {
+    if (!hand[letter] || hand[letter] === 0) {
+      return false;
+    }
+    hand[letter] -= 1;
+  }
+
+  return true;
 };
 
 export const scoreWord = (word) => {

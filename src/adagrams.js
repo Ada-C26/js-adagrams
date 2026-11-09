@@ -107,28 +107,25 @@ export const highestScoreFrom = (words) => {
     } if (word.length > 6 && word.length < 11) {
       value += 8;
     } words_value[word] = value;
-  } //console.log(words_value)
+  } 
 
   let highest = Object.fromEntries([Object.entries(words_value)[0]]);
   for (const key in words_value) {
-    //console.log(key, words_value[key]);
     if (words_value[key] > Object.values(highest)[0]) {
       highest = {[key]: words_value[key]};
-    } else if (words_value[key] == highest) {
+    } else if (words_value[key] == Object.values(highest)[0]) {
       if (Object.keys(highest)[0].length >= 10) {
         continue;
       } if (key.length >= 10) {
         highest = {[key]: words_value[key]};
-        //console.log('A=B:', highest);
         continue;
-      } if (key.length > Object.keys(highest)[0].length);
+      } if (key.length < Object.keys(highest)[0].length)
         highest = {[key]: words_value[key]};
-    } //console.log('A=B:', highest);
+    } 
   }  
   const [word, score] = Object.entries(highest)[0];
   const result = {score: score, word: word};
-  console.log(result)
   return result
 };
 
-highestScoreFrom(['AAAAAAAAAA', 'BBBBBB']);
+highestScoreFrom(['WWW','MMMM']);

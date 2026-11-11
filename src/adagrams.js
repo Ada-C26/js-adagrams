@@ -64,12 +64,12 @@ function getRandomIntInclusive(min, max) {
 
 export const drawLetters = () => {
   // Implement this method for wave 1
-  let letters = '';
+  const letters = [];
   const drawnLetters = [];
   const numbersDrawn = [];
 
   for (const [letter, count] of Object.entries(letterPool)) {
-    letters+=(letter.repeat(count));
+    letters.push(...letter.repeat(count));
   }
 
   let handSize = 10;

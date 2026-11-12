@@ -58,7 +58,25 @@ export const drawLetters = () => {
 };
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
+  const handFreq = {};
+
+  for (const letter of lettersInHand) {
+    const upperLetter = letter.toUpperCase();
+
+    if (handFreq[upperLetter]) {
+      handFreq[upperLetter] += 1;
+    } 
+    else {
+      handFreq[upperLetter] = 1;
+    } 
+  }
+  for (const letter of input.toUpperCase()) {
+    if (!handFreq[letter]) {
+      return false;
+    }
+    handFreq[letter] -= 1;
+  }
+  return true;
 };
 
 export const scoreWord = (word) => {

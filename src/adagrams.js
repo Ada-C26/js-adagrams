@@ -64,8 +64,42 @@ export const drawLetters = () => {
 
 // Wave 2
 export const usesAvailableLetters = (input, lettersInHand) => {
-  return false;
+  let availableLetters = [];
+
+  for (const letter of lettersInHand) {
+    availableLetters = availableLetters.concat([letter.toUpperCase()]);
+  }
+
+  for (const letter of input.toUpperCase()) {
+    let foundLetter = false;
+    let foundIndex = -1;
+
+    for (let letterIndex = 0; letterIndex < availableLetters.length; letterIndex++) {
+      if (availableLetters[letterIndex] === letter) {
+        foundLetter = true;
+        foundIndex = letterIndex;
+        break;
+      }
+    }
+
+    if (foundLetter === false) {
+      return false;
+    }
+
+    let newLetters = [];
+
+    for (let letterIndex = 0; letterIndex < availableLetters.length; letterIndex++) {
+      if (letterIndex !== foundIndex) {
+        newLetters = newLetters.concat([availableLetters[letterIndex]]);
+      }
+    }
+
+    availableLetters = newLetters;
+  }
+
+  return true;
 };
+
 
 // Wave 3
 export const scoreWord = (word) => {

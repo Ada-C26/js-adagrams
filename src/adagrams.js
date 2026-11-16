@@ -1,15 +1,153 @@
+const LETTER_POOL = {
+  A: 9,
+  B: 2,
+  C: 2,
+  D: 4,
+  E: 12,
+  F: 2,
+  G: 3,
+  H: 2,
+  I: 9,
+  J: 1,
+  K: 1,
+  L: 4,
+  M: 2,
+  N: 6,
+  O: 8,
+  P: 2,
+  Q: 1,
+  R: 6,
+  S: 4,
+  T: 6,
+  U: 4,
+  V: 2,
+  W: 2,
+  X: 1,
+  Y: 2,
+  Z: 1
+};
+
+// Wave 1
 export const drawLetters = () => {
-  // Implement this method for wave 1
+  let letters = [];
+
+  for (const letter in LETTER_POOL) {
+    const count = LETTER_POOL[letter];
+
+    for (let letterIndex = 0; letterIndex < count; letterIndex++) {
+      letters = letters.concat([letter]);
+    }
+  }
+
+  let hand = [];
+
+  for (let drawNumber = 0; drawNumber < 10; drawNumber++) {
+    const randomIndex = Math.floor(Math.random() * letters.length);
+
+    const randomLetter = letters[randomIndex];
+
+    let newLetters = [];
+
+    for (let index = 0; index < letters.length; index++) {
+      if (index !== randomIndex) {
+        newLetters = newLetters.concat([letters[index]]);
+      }
+    }
+
+    letters = newLetters;
+
+    hand = hand.concat([randomLetter]);
+  }
+
+  return hand;
 };
 
+// Wave 2
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
+  let availableLetters = [];
+
+  for (const letter of lettersInHand) {
+    availableLetters = availableLetters.concat([letter.toUpperCase()]);
+  }
+
+  for (const letter of input.toUpperCase()) {
+    let foundLetter = false;
+    let foundIndex = -1;
+
+    for (let letterIndex = 0; letterIndex < availableLetters.length; letterIndex++) {
+      if (availableLetters[letterIndex] === letter) {
+        foundLetter = true;
+        foundIndex = letterIndex;
+        break;
+      }
+    }
+
+    if (foundLetter === false) {
+      return false;
+    }
+
+    let newLetters = [];
+
+    for (let letterIndex = 0; letterIndex < availableLetters.length; letterIndex++) {
+      if (letterIndex !== foundIndex) {
+        newLetters = newLetters.concat([availableLetters[letterIndex]]);
+      }
+    }
+
+    availableLetters = newLetters;
+  }
+
+  return true;
 };
 
+// Wave 3
 export const scoreWord = (word) => {
-  // Implement this method for wave 3
+  const letterScores = {
+    A: 1, B: 3, C: 3, D: 2, E: 1,
+    F: 4, G: 2, H: 4, I: 1, J: 8,
+    K: 5, L: 1, M: 3, N: 1, O: 1,
+    P: 3, Q: 10, R: 1, S: 1, T: 1,
+    U: 1, V: 4, W: 4, X: 8, Y: 4,
+    Z: 10
+  };
+
+  let totalScore = 0;
+
+  const uppercaseWord = word.toUpperCase();
+
+  for (const letter of uppercaseWord) {
+    totalScore += letterScores[letter];
+  }
+
+  if (word.length >= 7 && word.length <= 10) {
+    totalScore += 8;
+  }
+
+  return totalScore;
 };
 
+// Wave 4
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+  let highestWord = '';
+  let highestScore = 0;
+
+  for (const word of words) {
+    const currentScore = scoreWord(word);
+
+    if (currentScore > highestScore) {
+      highestWord = word;
+      highestScore = currentScore;
+    } else if (currentScore === highestScore) {
+      if (word.length === 10 && highestWord.length !== 10) {
+        highestWord = word;
+      } else if (highestWord.length !== 10 && word.length < highestWord.length) {
+        highestWord = word;
+      }
+    }
+  }
+
+  return {
+    word: highestWord,
+    score: highestScore
+  };
 };

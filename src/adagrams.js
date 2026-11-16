@@ -100,7 +100,6 @@ export const usesAvailableLetters = (input, lettersInHand) => {
   return true;
 };
 
-
 // Wave 3
 export const scoreWord = (word) => {
   const letterScores = {
@@ -127,8 +126,28 @@ export const scoreWord = (word) => {
   return totalScore;
 };
 
-
 // Wave 4
 export const highestScoreFrom = (words) => {
-  return { word: "", score: 0 };
+  let highestWord = '';
+  let highestScore = 0;
+
+  for (const word of words) {
+    const currentScore = scoreWord(word);
+
+    if (currentScore > highestScore) {
+      highestWord = word;
+      highestScore = currentScore;
+    } else if (currentScore === highestScore) {
+      if (word.length === 10 && highestWord.length !== 10) {
+        highestWord = word;
+      } else if (highestWord.length !== 10 && word.length < highestWord.length) {
+        highestWord = word;
+      }
+    }
+  }
+
+  return {
+    word: highestWord,
+    score: highestScore
+  };
 };

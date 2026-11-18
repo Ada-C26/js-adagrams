@@ -1,15 +1,163 @@
-export const drawLetters = () => {
-  // Implement this method for wave 1
+const BONUS_POINTS_FOR_LENGTH = 8;
+
+const LETTER_SCORES = {
+  A: 1,
+  E: 1,
+  I: 1,
+  O: 1,
+  U: 1,
+  L: 1,
+  N: 1,
+  R: 1,
+  S: 1,
+  T: 1,
+  D: 2,
+  G: 2,
+  B: 3,
+  C: 3,
+  M: 3,
+  P: 3,
+  F: 4,
+  H: 4,
+  V: 4,
+  W: 4,
+  Y: 4,
+  K: 5,
+  J: 8,
+  X: 8,
+  Q: 10,
+  Z: 10
 };
+
+const LETTER_POOL = {
+  A: 9,
+  B: 2,
+  C: 2,
+  D: 4,
+  E: 12,
+  F: 2,
+  G: 3,
+  H: 2,
+  I: 9,
+  J: 1,
+  K: 1,
+  L: 4,
+  M: 2,
+  N: 6,
+  O: 8,
+  P: 2,
+  Q: 1,
+  R: 6,
+  S: 4,
+  T: 6,
+  U: 4,
+  V: 2,
+  W: 2,
+  X: 1,
+  Y: 2,
+  Z: 1
+};
+
+function getRandLetter(pool) {
+  const position = Math.floor(Math.random() * pool.length);
+  const letter = pool[position];
+  const lastPosition = pool.length - 1;
+
+  pool[position] = pool[lastPosition];
+  pool.pop();
+
+  return letter;
+}
+
+function hasBonus(word){
+  return word.length >= 7 && word.length <= 10;
+}
+
+function buildLetterPool(){
+  const pool = [];
+
+  for (const [letter, quantity] of Object.entries(LETTER_POOL)) {
+    for (let i = 0; i < quantity; i++) {
+      pool.push(letter);
+    }
+  }
+  return pool;
+}
+
+function breakTie(winningWord, word){
+  if (word.length === 10 && winningWord.length !== 10) {
+    winningWord = word;
+  } else if (
+    word.length < winningWord.length &&
+    winningWord.length !== 10
+  ) {
+    winningWord = word;
+  }
+  return winningWord;
+}
+
+
+export const drawLetters = () => {
+  const letters = [];
+  const pool = buildLetterPool();
+
+  while (letters.length < 10) {
+    letters.push(getRandLetter(pool));
+  }
+
+  return letters;
+};
+
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
+  const frequences = Object.create(null);
+  for (const letter of lettersInHand) {
+    frequences[letter] = (frequences[letter] ?? 0) + 1;
+  }
+  for (const letter of input.toUpperCase()) {
+    if (!frequences[letter]) {
+      return false;
+    }
+    frequences[letter]--;
+  }
+  return true;
 };
+
 
 export const scoreWord = (word) => {
-  // Implement this method for wave 3
+  let score = 0;
+
+  for (const letter of word.toUpperCase()) {
+    if (Object.hasOwn(LETTER_SCORES, letter)) {
+      score += LETTER_SCORES[letter];
+    }
+  }
+
+  if (hasBonus(word)) {
+    score += BONUS_POINTS_FOR_LENGTH;
+  }
+
+  return score;
 };
 
+
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+  let winningWord = '';
+  let winningScore = 0;
+
+  for (const word of words) {
+    const currentScore = scoreWord(word);
+
+    if (currentScore > winningScore) {
+      winningScore = currentScore;
+      winningWord = word;
+    } else if (currentScore === winningScore) {
+      winningWord = breakTie(winningWord, word);
+    }
+  }
+
+  return {
+    word: winningWord,
+    score: winningScore
+  };
 };

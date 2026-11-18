@@ -1,3 +1,5 @@
+const BONUS_POINTS_FOR_LENGTH = 8;
+
 const LETTER_SCORES = {
   A: 1,
   E: 1,
@@ -56,9 +58,22 @@ const LETTER_POOL = {
   Z: 1
 };
 
+function getRandLetter(pool) {
+  const position = Math.floor(Math.random() * pool.length);
+  const letter = pool[position];
+  const lastPosition = pool.length - 1;
 
-export const drawLetters = () => {
-  const letters = [];
+  pool[position] = pool[lastPosition];
+  pool.pop();
+
+  return letter;
+}
+
+function hasBonus(word){
+  return word.length >= 7 && word.length <= 10;
+}
+
+function buildLetterPool(){
   const pool = [];
 
   for (const [letter, quantity] of Object.entries(LETTER_POOL)) {
@@ -66,17 +81,31 @@ export const drawLetters = () => {
       pool.push(letter);
     }
   }
+  return pool;
+}
+
+function breakTie(winningWord, word){
+  if (word.length === 10 && winningWord.length !== 10) {
+    winningWord = word;
+  } else if (
+    word.length < winningWord.length &&
+    winningWord.length !== 10
+  ) {
+    winningWord = word;
+  }
+  return winningWord;
+}
+
+
+export const drawLetters = () => {
+  const letters = [];
+  const pool = buildLetterPool();
 
   while (letters.length < 10) {
-    const position = Math.floor(Math.random() * pool.length);
-    const letter = pool[position];
-
-    letters.push(letter);
-    pool.splice(position, 1);
+    letters.push(getRandLetter(pool));
   }
 
   return letters;
-
 };
 
 
@@ -104,8 +133,8 @@ export const scoreWord = (word) => {
     }
   }
 
-  if (word.length >= 7 && word.length <= 10) {
-    score += 8;
+  if (hasBonus(word)) {
+    score += BONUS_POINTS_FOR_LENGTH;
   }
 
   return score;
@@ -123,14 +152,7 @@ export const highestScoreFrom = (words) => {
       winningScore = currentScore;
       winningWord = word;
     } else if (currentScore === winningScore) {
-      if (word.length === 10 && winningWord.length !== 10) {
-        winningWord = word;
-      } else if (
-        word.length < winningWord.length &&
-        winningWord.length !== 10
-      ) {
-        winningWord = word;
-      }
+      winningWord = breakTie(winningWord, word);
     }
   }
 

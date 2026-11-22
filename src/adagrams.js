@@ -122,7 +122,7 @@ export const highestScoreFrom = (words) => {
       bestWord = word;
       bestScore = score;
     } else if (score === bestScore) {
-      // tie: a 10 letter word wins, if not then the shorter word wins
+      // if the scores tie, the 10 letter word wins. if there is no 10 letter word, the shorter one wins
       if (bestWord.length === 10) {
         continue;
       } else if (word.length === 10) {
